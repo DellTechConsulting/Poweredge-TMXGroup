@@ -1,0 +1,58 @@
+---
+# .ansible-lint
+exclude_paths:
+  #- ./*.cache/  # implicit unless exclude_paths is defined in config
+  - ./collections/
+  - .gitlab-ci.yml
+  - ./*.vscode/
+  - ./tmp/
+  - .ansible-lint
+
+#parseable: true
+#quiet: true
+#verbosity: 1
+
+# Enforce variable names to follow pattern below, in addition to Ansible own
+# requirements, like avoiding python identifiers. To disable add `var-naming`
+# to skip_list.
+# var_naming_pattern: "^[a-z_][a-z0-9_]*$"
+
+use_default_rules: true
+# Load custom rules from this specific folder
+# rulesdir:
+#   - ./rule/directory/
+
+# This makes linter fully ignore rules/tags listed below
+skip_list:
+
+  - package-latest
+  - risky-file-permissions
+  - no-changed-when
+  - command-instead-of-shell
+  - trailing-spaces
+  - empty-lines
+  - comments
+  - new-line-at-end-of-file
+  - line-length
+  - ignore-errors
+  - experimental  # all rules tagged as experimental
+  - schema  # Perform JSON Schema Validation for known lintable kinds.
+
+# This makes the linter display but not fail for rules/tags listed below:
+warn_list:
+  - command-instead-of-module
+  - no-handler
+  - unnamed-task
+  - truthy
+
+enable_list:
+  - indentation
+
+kinds:
+#  - playbook: "./playbooks/*.{yml,yaml}"
+#   # - galaxy: "**/folder/galaxy.yml"
+  - tasks: "./**/tasks/**.yml"
+  - vars: "./**/vars/**.yml"
+#   # - meta: "**/meta/main.yml"
+
+

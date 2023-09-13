@@ -1,0 +1,40 @@
+---
+
+stages:    
+  - lint
+  - scan
+
+
+lint-ansible-code:
+  stage: lint    
+  # image:
+  #   name: quay.io/t1gershark/gitlab-ansible:latest
+  #   pull_policy: if-not-present
+  script:
+    - echo "Linting Ansible code..."
+    - ansible-lint --force-color
+    # - echo "Linting Ansible root Playbooks..."
+    # - ansible-lint -c .ansible-lint *.yml --force-color
+  tags:
+    - ansible
+
+Ansible Checkmarx-Kics Scan:
+  image:
+    name: checkmarx/kics:latest
+    entrypoint: [ "" ]
+  stage: scan
+  script:
+      - kics scan --no-progress -p ${PWD} -o ${PWD} --report-formats json --output-name kics-results_`date +%d%b%Y`
+  artifacts:
+    name: kics-results_`date +%d%b%Y`.json
+    paths:
+    - kics-results_`date +%d%b%Y`.json
+    reports:
+      sast: kics-results_`date +%d%b%Y`.json
+      codequality: kics-results_`date +%d%b%Y`.json
+    when: always
+  allow_failure: false
+  tags:
+    - ansible
+
+
