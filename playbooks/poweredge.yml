@@ -1,0 +1,26 @@
+---
+### Dell EMC PowerEdge
+################################################################################
+## PowerEdge automation with Ansible                                          #
+################################################################################
+
+- name: Load PowerEdge plays
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+  - include: tasks/verify_connection_file.yml
+  - include: tasks/poweredge_biosconfig.yml
+  - include: tasks/poweredge_firmwareconfig.yml
+  - include: tasks/poweredge_networkconfig.yml
+  - include: tasks/poweredge_storageconfig.yml
+  - include: tasks/poweredge_virtualdisk.yml
+  - include: tasks/poweredge_osdeploy.yml
+  - include: tasks/poweredge_powerstate.yml
+  - include: tasks/poweredge_getinventory.yml
+  - include: tasks/poweredge_user.yml
+  - include: tasks/poweredge_csior.yml
+  - include: tasks/poweredge_eventing.yml
+  - include: tasks/poweredge_reset.yml

@@ -1,0 +1,23 @@
+---
+- name: Ensure required variables are set
+  ansible.builtin.assert:
+    that:
+      - connfile  is defined
+      - connfile  | length > 0
+    fail_msg: "Expected variables have not been set. Please specify connection file to be used"
+    success_msg: "Connection File Specified. Validating..."
+
+- name: Check connection file exists
+  ansible.builtin.stat:
+    path: "../vars/{{ connfile }}"
+  register: confileexists
+
+- name: Validating array connection file
+  ansible.builtin.fail:
+    msg:
+      - "Unable to locate the connection file in vars directory"
+      - "Please make sure the file is commited to vars directory in GIT [ File Passed : {{ connfile }} ]"
+  when: not confileexists.stat.exists
+
+- name: Importing connection details
+  ansible.builtin.include_vars: "../vars/{{ connfile }}"

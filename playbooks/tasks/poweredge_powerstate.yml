@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play manages the powerstate of Poweredge    #
+##################################################################
+
+- name: poweron the poweredge
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_apply_powerstate
+  when:
+    - idrac_config.power.power_state is defined

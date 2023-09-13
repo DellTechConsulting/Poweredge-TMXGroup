@@ -1,0 +1,29 @@
+---
+- name: Import virtual disk delete configurations
+  ansible.builtin.set_fact:
+    storage_configs: "{{ idrac_config.storagevolume.storagevolume_config }}"
+
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+      state: "delete"
+  no_log: true
+
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
+  loop: "{{ storage_configs }}"
+  no_log: true
+
+- name: Delete virtual disk
+  dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
+  loop: "{{ fs_items }}"
+  register: delete_vdisk
+
+- name: Display result
+  ansible.builtin.debug:
+    msg: "{{ delete_vdisk }}"

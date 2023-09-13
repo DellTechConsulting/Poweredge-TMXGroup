@@ -1,0 +1,19 @@
+---
+##################################################################
+# This play performs Firmware Configuration for Poweredge      #
+##################################################################
+
+- name: Firmware-Configuration
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_firmwareconfig_update
+  when:
+    - idrac_config.firmware.firmware_update is defined
+    - idrac_config.firmware.state == "update"
+
+- name: Get inventory details of poweredge
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_get_firwareInventory
+  when:
+    - idrac_config.firmware.firmware_get is defined

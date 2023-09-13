@@ -1,0 +1,11 @@
+---
+- name: Reset idrac
+  dellemc.openmanage.idrac_reset:
+    idrac_ip: "{{ array_ip }}"
+    validate_certs: "{{ verifycert }}"
+    idrac_user: "{{ user }}"
+    idrac_password: "{{ password }}"
+  register: reset_result
+- name: display result
+  ansible.builtin.debug:
+    msg: "{{ reset_result }}"

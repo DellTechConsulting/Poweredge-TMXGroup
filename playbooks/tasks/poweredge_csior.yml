@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play performs Csior Configuration for Poweredge      #
+##################################################################
+
+- name: Csior-Configuration
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_csiorconfig
+  when:
+    - idrac_config.csior.csior_settings is defined

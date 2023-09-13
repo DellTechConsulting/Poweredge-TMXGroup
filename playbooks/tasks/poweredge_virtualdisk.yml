@@ -1,0 +1,20 @@
+---
+##################################################################
+# This play performs virtual disk operations for Poweredge      #
+##################################################################
+
+- name: Virtual Disk Create
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_storagevolume_create
+  when:
+    - idrac_config.storagevolume.storagevolume_config is defined
+    - idrac_config.storagevolume.state == "create"
+
+- name: Virtual Disk Delete
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_storagevolume_delete
+  when:
+    - idrac_config.storagevolume.storagevolume_config is defined
+    - idrac_config.storagevolume.state == "delete"

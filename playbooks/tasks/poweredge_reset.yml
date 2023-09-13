@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play performs Reset of iDRAC #
+##################################################################
+
+- name: Reset iDRAC
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_csiorconfig
+  when:
+    - idrac_config.reset is defined

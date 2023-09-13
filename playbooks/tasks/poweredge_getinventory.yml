@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play gets the inventory details of Poweredge    #
+##################################################################
+
+- name: Get inventory details of poweredge
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_getinventory
+  when:
+    - idrac_config.inventory.inventory_get is defined

@@ -1,0 +1,11 @@
+---
+- name: Get System Inventory
+  dellemc.openmanage.dellemc_get_system_inventory:
+    idrac_ip: "{{ array_ip }}"
+    validate_certs: "{{ verifycert }}"
+    idrac_user: "{{ user }}"
+    idrac_password: "{{ password }}"
+  register: get_inven
+- name: Display System Inventory details
+  ansible.builtin.debug:
+    msg: "{{ get_inven }}"

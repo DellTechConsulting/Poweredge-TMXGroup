@@ -1,0 +1,28 @@
+---
+- name: Import virtual disk create configurations
+  ansible.builtin.set_fact:
+    storage_configs: "{{ idrac_config.storagevolume.storagevolume_config }}"
+
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+      state: "create"
+  no_log: true
+
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
+  loop: "{{ storage_configs }}"
+
+- name: Create virtual disk
+  dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
+  loop: "{{ fs_items }}"
+  register: create_vdisk
+
+- name: Display result
+  ansible.builtin.debug:
+    msg: "{{ create_vdisk }}"

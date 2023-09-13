@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play get firmware update for Poweredge      #
+##################################################################
+
+- name: Get inventory details of poweredge
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_get_firwareInventory
+  when:
+    - idrac_config.firmware.firmware_get is defined

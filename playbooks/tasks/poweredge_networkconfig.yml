@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play performs Network Configuration for Poweredge      #
+##################################################################
+
+- name: Network-Configuration
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_networkconfig
+  when:
+    - idrac_config.network.network_settings is defined

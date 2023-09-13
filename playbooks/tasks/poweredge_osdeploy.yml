@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play performs Deploy OS from network share Poweredge    #
+##################################################################
+
+- name: Deploy OS from Network share
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_osdeploy
+  when:
+    - idrac_config.OSdeploy.OSdeploy_config is defined

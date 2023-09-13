@@ -1,0 +1,20 @@
+---
+##################################################################
+# This play performs Storage Configuration for Poweredge      #
+##################################################################
+
+- name: Storage-Configuration
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_storageconfig
+  when:
+    - idrac_config.storage.storage_config is defined
+    - idrac_config.storage.state == "config"
+
+- name: Get Storage details
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_getstoragedetails
+  when:
+    - idrac_config.storage.storage_config is defined
+    - idrac_config.storage.state == "view"

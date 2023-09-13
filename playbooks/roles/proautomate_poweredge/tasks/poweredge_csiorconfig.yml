@@ -1,0 +1,28 @@
+---
+- name: Import csior configurations
+  ansible.builtin.set_fact:
+    bios_configs: "{{ idrac_config.csior.csior_settings }}"
+
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+  no_log: true
+
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
+  loop: "{{ bios_configs }}"
+  no_log: true
+
+- name: Configure csior Settings for idrac
+  dellemc.openmanage.dellemc_idrac_lc_attributes: "{{ item }}"
+  loop: "{{ fs_items }}"
+  register: csior
+
+- name: display the CSIOR setting result
+  ansible.builtin.debug:
+    msg: "{{ csior }}"
