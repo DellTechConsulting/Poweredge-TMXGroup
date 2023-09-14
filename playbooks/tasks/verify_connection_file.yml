@@ -21,3 +21,4 @@
 
 - name: Importing connection details
   ansible.builtin.include_vars: "../../vars/connection.yml"
+  ignore_errors: True
