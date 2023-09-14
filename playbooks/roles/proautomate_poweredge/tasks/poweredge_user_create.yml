@@ -11,13 +11,13 @@
       idrac_user: "{{ user }}"
       idrac_password: "{{ password }}"
       state: "present"
-  no_log: true
+ # no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
   loop: "{{ user_configs }}"
-  no_log: true
+ # no_log: true
 
 - name: Create User for idrac
   dellemc.openmanage.idrac_user: "{{ item }}"
