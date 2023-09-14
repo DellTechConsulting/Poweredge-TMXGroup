@@ -1,0 +1,32 @@
+{
+    "idrac_config": {
+        "user": {
+            "state": "create",
+            "users": [
+             {
+                "idrac_user": "idrac_user",
+                "idrac_password": "idrac_password",
+                "state": "present",
+                "user_name": "user_name",
+                "user_password": "user_password",
+                "privilege": "Administrator",
+                "ipmi_lan_privilege": "Administrator",
+                "ipmi_serial_privilege": "Administrator",
+                "enable": true,
+                "sol_enable": true,
+                "protocol_enable": true,
+                "authentication_protocol": "SHA",
+                "privacy_protocol": "AES"
+               }
+            ]
+
+            "state": "delete",
+            "users": [
+                {
+                "user_name": "user_name"
+           }
+            ]
+
+        }
+    }
+}
