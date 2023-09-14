@@ -9,6 +9,9 @@
   gather_facts: false
   connection: local
 
+  vars_files:
+    - vars/vars.yml
+
   tasks:
 
   - include: tasks/verify_connection_file.yml
