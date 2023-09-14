@@ -15,7 +15,7 @@
 
   tasks:
 
-  - include: tasks/verify_connection_file.yml
+  #- include: tasks/verify_connection_file.yml
   - include: tasks/poweredge_biosconfig.yml
   - include: tasks/poweredge_firmwareconfig.yml
   - include: tasks/poweredge_networkconfig.yml
