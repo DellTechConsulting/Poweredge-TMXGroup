@@ -19,6 +19,6 @@
      # - "Please make sure the file is commited to vars directory in GIT [ File Passed : {{ connfile }} ]"
   when: not confileexists.stat.exists
 
-- name: Importing connection details
-  ansible.builtin.include_vars: "../../vars/connection.yml"
-  ignore_errors: True
+# - name: Importing connection details
+#   ansible.builtin.include_vars: "../../vars/connection.yml"
+#   ignore_errors: True
