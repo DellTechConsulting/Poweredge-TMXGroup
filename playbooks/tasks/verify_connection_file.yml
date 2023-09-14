@@ -9,15 +9,15 @@
 
 - name: Check connection file exists
   ansible.builtin.stat:
-    path: "../vars/{{ connfile }}"
+    path: "../../vars/connection.yml"
   register: confileexists
 
 - name: Validating array connection file
   ansible.builtin.fail:
     msg:
       - "Unable to locate the connection file in vars directory"
-      - "Please make sure the file is commited to vars directory in GIT [ File Passed : {{ connfile }} ]"
+     # - "Please make sure the file is commited to vars directory in GIT [ File Passed : {{ connfile }} ]"
   when: not confileexists.stat.exists
 
 - name: Importing connection details
-  ansible.builtin.include_vars: "../vars/{{ connfile }}"
+  ansible.builtin.include_vars: "../../vars/connection.yml"
