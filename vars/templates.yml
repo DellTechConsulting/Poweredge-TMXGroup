@@ -1,0 +1,196 @@
+---
+templates:
+  - name: PowerEdge - BIOS bootsources
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        bios:
+          state: biosconfig
+          bios_settings:
+            - boot_sources:
+              - Name: NIC.Embedded.1-1-1
+                Enabled: true
+                Index: 0
+
+  - name: PowerEdge - BIOS attributes
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        bios:
+          state: biosconfig
+          bios_settings:
+            - attributes:
+                HddFailover: Disabled
+                SysProfile: PerfPerWattOptimizedOs
+
+  - name: PowerEdge - CSIOR
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        csior:
+          state: present
+          csior_settings:
+            - share_name: "/tmp"
+              csior: Enabled
+
+  - name: PowerEdge - Deploy OS
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        OSdeploy:
+          state: present
+          OSdeploy_config:
+            - share_name: mgmtesx04-nfs.rdc.bru:/IAC
+              iso_image: RHEL-8.3.0-20201009.2-x86_64-dvd1.iso
+              expose_duration: 180
+
+  - name: PowerEdge - Eventing
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        eventing:
+          state: "'present"
+          eventing_settings:
+            - idrac_attributes:
+                RemoteHosts.1.SMTPServerIPAddress: 172.19.4.142
+                RemoteHosts.1.SMTPAuthentication: Enabled
+                RemoteHosts.1.SMTPPort: 25
+                RemoteHosts.1.SMTPUserName: username
+                RemoteHosts.1.SMTPPassword: password
+
+  - name: PowerEdge - Firmware Update
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        firmware:
+          state: update
+          firmware_update:
+            - share_name: mgmtesx04-nfs.rdc.bru:/IAC
+              reboot: false
+              job_wait: true
+              apply_update: false
+              catalog_file_name: Catalog.xml
+    
+  - name: PowerEdge - Firmware Show
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        firmware:
+          firmware_get:
+            - state: view
+
+  - name: PowerEdge - Inventory Show
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        inventory:
+          inventory_get:
+            - state: view
+
+  - name: PowerEdge - Network Config
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        network:
+          state: netconfig
+          network_settings:
+            - static_dns_1: 10.56.112.90
+              static_dns_2: 10.56.112.91
+              share_name: "/tmp"
+
+  - name: PowerEdge - Power State
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        power:
+          state: 'on'
+          power_state:
+            - reset_type: 'On'
+
+  - name: PowerEdge - iDRAC Reset
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        reset:
+          state: reset
+
+  - name: PowerEdge - Storage Config
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        storage:
+          state: config
+          storage_config:
+            - command: ConvertToRAID
+              target: Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.2-1
+
+  - name: PowerEdge - Storage Show
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        storage:
+          state: view
+          storage_config:
+            - {}
+
+  - name: PowerEdge - Storage Show
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        storage:
+          state: view
+          storage_config:
+            - {}
+
+  - name: PowerEdge - User Config
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        user:
+          state: update # or create / delete / rename
+          users:
+            - user_name: user_name
+              privilege: Administrator
+              sol_enable: false
+
+  - name: PowerEdge - Virtual Disk Config
+    playbook: "playbooks/poweredge.yml"
+    extra_vars:
+      connfile: connection.yml
+      idrac_config:
+        storagevolume:
+          state: create # or delete
+          storagevolume_config:
+            - raid_reset_config: 'True'
+              controller_id: RAID.Slot.2-1
+              volume_type: RAID 1
+              span_depth: 1
+              span_length: 2
+              number_dedicated_hot_spare: 1
+              disk_cache_policy: Default
+              write_cache_policy: WriteThrough
+              read_cache_policy: NoReadAhead
+              stripe_size: 65536
+              capacity: 100
+              volumes:
+                - name: volume_1
+                  drives:
+                    id:
+                    - Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.2-1
+                    - Disk.Bay.1:Enclosure.Internal.0-1:RAID.Slot.2-1
+              raid_init_operation: Fast
