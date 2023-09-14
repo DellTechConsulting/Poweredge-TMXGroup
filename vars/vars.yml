@@ -18,15 +18,8 @@
                 "authentication_protocol": "SHA",
                 "privacy_protocol": "AES"
                }
-            ],
-
-            "state": "delete",
-            "users": [
-                {
-                "user_name": "user_name"
-           }
             ]
 
-        }
+       }
     }
 }
