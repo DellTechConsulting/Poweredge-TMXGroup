@@ -7,7 +7,7 @@
                 "idrac_user": "idrac_user",
                 "idrac_password": "idrac_password",
                 "state": "present",
-                "user_name": "utest_user",
+                "user_name": "test_user",
                 "user_password": "Welcome2Dell1!",
                 "privilege": "Administrator",
                 "ipmi_lan_privilege": "Administrator",
