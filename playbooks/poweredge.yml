@@ -10,8 +10,8 @@
   connection: local
 
   vars_files:
-    - ../vars/vars.yml
-    - ../vars/connection.yml
+    #- ../vars/vars.yml
+    #- ../vars/connection.yml
 
   tasks:
 
