@@ -1,10 +1,4 @@
 ---
-# - name: setting the array ip
-#     debug:
-#       msg: "{{item.user}}"
-#     loop: "{{idrac}}"
-#     when: item.ip == "{{array_ip}}" 
-
 - name: Set the array ip
   ansible.builtin.set_fact:
     array_ip: "{{item.ip}}"
