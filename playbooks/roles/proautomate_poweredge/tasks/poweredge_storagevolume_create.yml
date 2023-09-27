@@ -1,4 +1,12 @@
 ---
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip == "{{idrac_config.array_ip}}" 
+
 - name: Import virtual disk create configurations
   ansible.builtin.set_fact:
     storage_configs: "{{ idrac_config.storagevolume.storagevolume_config }}"
