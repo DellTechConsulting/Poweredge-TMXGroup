@@ -1,4 +1,12 @@
 ---
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip == "{{idrac_config.array_ip}}" 
+
 - name: Import os deploy configurations
   ansible.builtin.set_fact:
     osdeploy_configs: "{{ idrac_config.OSdeploy.OSdeploy_config }}"
