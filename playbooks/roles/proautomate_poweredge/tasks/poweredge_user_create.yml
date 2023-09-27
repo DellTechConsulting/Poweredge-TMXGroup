@@ -1,19 +1,5 @@
 ---
-- name: Import idrac configurations
-  ansible.builtin.set_fact:
-    array_ip: "{{ array_ip_1 }}"
-    user: "{{user_1}}"
-    password: "{{password_1}}"
-  when:
-    - idrac_config.idrac_name == "idrac_1" 
-
-- name: Import idrac configurations
-  ansible.builtin.set_fact:
-    array_ip: "{{ array_ip_2 }}"
-    user: "{{user_2}}"
-    password: "{{password_2}}"
-  when:
-    - idrac_config.idrac_name == "idrac_2"     
+  
     
 - name: Import user create configurations
   ansible.builtin.set_fact:
