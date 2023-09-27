@@ -5,7 +5,7 @@
 #     loop: "{{idrac}}"
 #     when: item.ip == "{{array_ip}}" 
 
-- name: Set base module configuration
+- name: Set the array ip
   ansible.builtin.set_fact:
     user: "{{item.user}}"
     password: "{{item.password}}"
