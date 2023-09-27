@@ -1,4 +1,12 @@
 ---
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip == "{{idrac_config.array_ip}}" 
+
 - name: View all volume details
   dellemc.openmanage.dellemc_idrac_storage_volume:
     idrac_ip: "{{ array_ip }}"
