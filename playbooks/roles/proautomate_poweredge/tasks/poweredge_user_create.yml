@@ -1,10 +1,26 @@
 ---
 - name: Import idrac ips   
   ansible.builtin.set_fact:
-    array_ip: "{{idrac_config.idrac_ip}}"
+    array_ips: "{{idrac_config.idrac_ip}}"
 
 - debug:
-    msg: "{{array_ip}}"
+    msg: "{{array_ips}}"
+
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    array_ip: "{{ (array_ip | default([])) + [ item | combine(idrac.ip) ] }}"
+    user: "{{ (array_ip | default([])) + [ item | combine(idrac.user) ] }}"
+    password: "{{ (array_ip | default([])) + [ item | combine(idrac.password) ] }}"
+  loop: "{{ array_ips }}"   
+
+- debug:
+    msg: 
+    - "{{array_ip}}"
+    - "{{user}}"
+    - "{{passowrd}}"
+    
+
+    
 
 # - name: Set the array ip
 #   ansible.builtin.set_fact:
