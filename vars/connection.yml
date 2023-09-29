@@ -13,5 +13,6 @@ idrac:
    password: idracP@ssw0rd  
 
 verifycert: false
-
+real_ip: []
+idrac_base: []
 
