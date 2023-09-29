@@ -13,7 +13,7 @@
     password: "{{item.password}}"
   loop:
     - "{{idrac}}"
-    - "{{array_ips}}"
+    # - "{{array_ips}}"
   #when: item.ip == "{{idrac_config.idrac_ip}}"
 
 - debug:
