@@ -36,7 +36,10 @@
     item.1 == item.0.ip
   with_together:
     - "{{ idrac }}"
-    - "{{ real_ip }}"    
+    - "{{ real_ip }}"   
+
+- debug:
+    var: idrac_base
 
   
     
