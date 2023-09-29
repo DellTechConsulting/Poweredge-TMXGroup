@@ -11,10 +11,8 @@
     array_ip: "{{item.ip}}"
     user: "{{item.user}}"
     password: "{{item.password}}"
-  loop:
-    - "{{idrac}}"
-    # - "{{array_ips}}"
-  #when: item.ip == "{{idrac_config.idrac_ip}}"
+  loop: "{{idrac}}"
+  when: item.ip is in array_ips
 
 - debug:
     msg: 
