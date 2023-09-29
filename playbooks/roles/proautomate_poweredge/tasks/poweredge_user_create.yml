@@ -39,16 +39,18 @@
     - "{{ real_ip }}"   
 
 - debug:
-    var: idrac_base
+    - var: idrac_base
+    - var: user_configs
+    
 
   
-- name: Combine config
-  set_fact:
-    fs_item: "{{ (fs_items | default([])) + [ item | combine(user_configs) ] }}"
-  with_items: idrac_base
+# - name: Combine config
+#   set_fact:
+#     fs_item: "{{ item + user_configs) ] }}"
+#   with_items: idrac_base
 
-- debug:
-    var: fs_item
+# - debug:
+#     var: fs_item
     
 # - name: Combine configurations
 #   ansible.builtin.set_fact:
