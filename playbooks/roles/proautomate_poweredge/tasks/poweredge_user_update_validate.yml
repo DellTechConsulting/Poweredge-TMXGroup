@@ -5,7 +5,7 @@
     user: "{{item.user}}"
     password: "{{item.password}}"
   loop: "{{idrac}}"
-  when: item.ip == "{{idrac_config.array_ip}}" 
+  when: item.ip == "{{idrac_config.idrac_ip}}" 
 
 - name: get all user on iDRAC
   ansible.builtin.uri:
