@@ -42,18 +42,12 @@
   set_fact:
     fs_item: "{{ fs_item }} + [ '{{ user_configs }}' ]"
 
-- name: Combine config
-  set_fact:
-    fs_item: "{{ fs_item + item }}"
-  with_items: "{{ idrac_base }}"
-
-
 - debug:
     var: fs_item
 
 
-# - debug:
-#     var: fs_item
+- debug:
+    var: user_configs
     
 # - name: Combine configurations
 #   ansible.builtin.set_fact:
