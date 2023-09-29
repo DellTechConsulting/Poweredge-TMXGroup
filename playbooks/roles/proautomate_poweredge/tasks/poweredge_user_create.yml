@@ -28,7 +28,7 @@
       idrac_user: "{{ item.0.user }}"
       idrac_password: "{{ item.0.password }}"
       state: "present"
-  when: item.0.ip is in item.1    
+  when: "{{item.0.ip }}" is in "{{item.1}}"   
   with_together:  
     - "{{idrac}}" 
     - "{{array_ips}}"  
