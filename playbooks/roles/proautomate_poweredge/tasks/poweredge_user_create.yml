@@ -26,12 +26,12 @@
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
-    idrac_base: "{{ idrac_base }} + [
-      idrac_ip: '{{ item.0.ip }}'
-      validate_certs: '{{ verifycert }}'
-      idrac_user: '{{ item.0.user }}'
-      idrac_password: '{{ item.0.password }}'
-      state: 'present' ]"
+    idrac_base: "{{ idrac_base }} + ['
+      idrac_ip: {{ item.0.ip }}
+      validate_certs: {{ verifycert }}
+      idrac_user: {{ item.0.user }}
+      idrac_password: {{ item.0.password }}
+      state: present' ]"
   when:
     item.1 == item.0.ip
   with_together:
