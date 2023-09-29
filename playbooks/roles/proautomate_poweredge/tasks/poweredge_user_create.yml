@@ -1,7 +1,6 @@
 ---
 - name: Import idrac ips   
   ansible.builtin.set_fact:
-    #selected_count: 0
     array_ips: "{{idrac_config.idrac_ip}}"
   
 - debug:
@@ -29,7 +28,9 @@
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
       state: "present"
-  loop: "{{idrac}}"   
+  loop: 
+    - "{{idrac}}" 
+    - "{{array_ips}}"  
   when: item.ip is in array_ips
 
   
