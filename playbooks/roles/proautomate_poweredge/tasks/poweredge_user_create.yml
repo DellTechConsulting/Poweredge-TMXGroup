@@ -44,7 +44,7 @@
   
 - name: Combine config
   set_fact:
-    fs_item: "{{ item + user_configs }}"
+    fs_item: "{{ (fs_items | default([])) + [ item | combine(user_configs) ] }}"
   with_items: idrac_base
 
 - debug:
