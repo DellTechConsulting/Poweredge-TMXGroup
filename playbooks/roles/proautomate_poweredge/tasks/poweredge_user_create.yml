@@ -31,9 +31,9 @@
     
 - debug:
     msg: 
-    - "{{idrac_ip}}"
-    - "{{idrac_user}}"
-    - "{{idrac_password}}"
+    - "{{idrac_base.idrac_ip}}"
+    - "{{idrac_base.idrac_user}}"
+    - "{{idrac_base.idrac_password}}"
 
 
 #  # no_log: true
