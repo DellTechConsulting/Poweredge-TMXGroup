@@ -8,31 +8,35 @@
 
 - name: Set the array ip
   ansible.builtin.set_fact:
-    array_ip: "{{item.ip}}"
-    user: "{{item.user}}"
-    password: "{{item.password}}"
-  loop: "{{idrac}}"
-  when: item.ip is in array_ips
+    array_base:
+      array_ip: "{{item.ip}}"
+      user: "{{item.user}}"
+      password: "{{item.password}}"
+    loop: "{{idrac}}"
+    when: item.ip is in array_ips
 
+    
+- name: Import user create configurations
+  ansible.builtin.set_fact:
+    user_configs: "{{ idrac_config.user.users }}"
+
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+      state: "present"
+    loop: "{{array_base}}"
+    
 - debug:
     msg: 
-    - "{{array_ip}}"
-    - "{{user}}"
-    - "{{password}}"
-      
-    
-# - name: Import user create configurations
-#   ansible.builtin.set_fact:
-#     user_configs: "{{ idrac_config.user.users }}"
+    - "{{idrac_ip}}"
+    - "{{idrac_user}}"
+    - "{{idrac_password}}"
 
-# - name: Set base module configuration
-#   ansible.builtin.set_fact:
-#     idrac_base:
-#       idrac_ip: "{{ array_ip }}"
-#       validate_certs: "{{ verifycert }}"
-#       idrac_user: "{{ user }}"
-#       idrac_password: "{{ password }}"
-#       state: "present"
+
 #  # no_log: true
 
 # - name: Combine configurations
