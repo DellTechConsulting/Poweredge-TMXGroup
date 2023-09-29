@@ -16,8 +16,8 @@
     msg: "{{total_count}}"   
 
 - debug:
-    msg: "{{array_ips[selected_count | int].idrac}}"    
-  
+    msg: "{{array_ips[selected_count | int].item}}"    
+  loop: "{{idrac}}"
     
 
 # - name: Set the array ip
