@@ -1,45 +1,44 @@
 ---
 - name: Import idrac ips   
   ansible.builtin.set_fact:
-    selected_count: 0
-    array_ips: "{{item}}"
-  with_items: "{{idrac_ip}}"  
-
+    #selected_count: 0
+    array_ips: "{{idrac_config.idrac_ip}}"
+  
 - debug:
     msg: "{{array_ips}}"
 
-# - name: Set the array ip
-#   ansible.builtin.set_fact:
-#     array_ip: "{{item.ip}}"
-#     user: "{{item.user}}"
-#     password: "{{item.password}}"
-#   loop: "{{idrac}}"
-#   when: item.ip is in array_ips
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip is in array_ips
 
     
-# - name: Import user create configurations
-#   ansible.builtin.set_fact:
-#     user_configs: "{{ idrac_config.user.users }}"
+- name: Import user create configurations
+  ansible.builtin.set_fact:
+    user_configs: "{{ idrac_config.user.users }}"
 
-# - name: Set base module configuration
-#   ansible.builtin.set_fact:
-#     idrac_base:
-#       idrac_ip: "{{ array_ip }}"
-#       validate_certs: "{{ verifycert }}"
-#       idrac_user: "{{ user }}"
-#       idrac_password: "{{ password }}"
-#       state: "present"
-#   loop: "{{array_ips}}"  
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+      state: "present"
+  loop: "{{array_ips}}"  
   
     
-# - debug:
-#     msg: 
-#     - "{{idrac_base.idrac_ip}}"
-#     - "{{idrac_base.idrac_user}}"
-#     - "{{idrac_base.idrac_password}}"
+- debug:
+    msg: 
+    - "{{idrac_base.idrac_ip}}"
+    - "{{idrac_base.idrac_user}}"
+    - "{{idrac_base.idrac_password}}"
 
 
-#  # no_log: true
+ # no_log: true
 
 # - name: Combine configurations
 #   ansible.builtin.set_fact:
