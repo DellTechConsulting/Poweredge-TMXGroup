@@ -7,41 +7,36 @@
     msg: "{{array_ips}}"
 
 
-- name: setfact
-  ansible.builtin.set_fact: 
-    selected_count: 0
-    total_count: "{{array_ips| length}}"
+# - name: setfact
+#   ansible.builtin.set_fact: 
+#     selected_count: 0
+#     total_count: "{{array_ips| length}}"
 
-- debug:
-    msg: "{{total_count}}"   
+# - debug:
+#     msg: "{{total_count}}"   
   
     
 
-# - name: Set the array ip
-#   block:
-#     - name: setting the array ip
-#       ansible.builtin.set_fact:
-#         array_ip: "{{item.ip}}"
-#         user: "{{item.user}}"
-#         password: "{{item.password}}"
-#     # loop: "{{idrac}}"
-#       when: item.ip is in array_ips
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip is in array_ips
 
-# - name: Import user create configurations
-#   ansible.builtin.set_fact:
-#     user_configs: "{{ idrac_config.user.users }}"  
+- name: Import user create configurations
+  ansible.builtin.set_fact:
+    user_configs: "{{ idrac_config.user.users }}"  
 
-# - name: Set base module configuration
-#   ansible.builtin.set_fact:
-#     idrac_base:
-#       idrac_ip: "{{ item.ip }}"
-#       validate_certs: "{{ verifycert }}"
-#       idrac_user: "{{ item.user }}"
-#       idrac_password: "{{ item.password }}"
-#       state: "present"
-#   loop: "{{idrac}}" 
-#   when: item.ip is in array_ips  
-  
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+      state: "present"
 
   
     
@@ -52,19 +47,22 @@
 #     - "{{idrac_base.idrac_password}}"
 
 
-#  # no_log: true
 
-# - name: Combine configurations
-#   ansible.builtin.set_fact:
-#     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-#   loop: "{{ user_configs }}"
-#  # no_log: true
 
-# - name: Create User for idrac
-#   dellemc.openmanage.idrac_user: "{{ item }}"
-#   loop: "{{ fs_items }}"
-#   register: user_create
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
+  with_together:
+    - "{{ user_configs }}"
+    - "{{ array_ips }}"  
+  
+ # no_log: true
 
-# - name: display
-#   ansible.builtin.debug:
-#     msg: "{{ user_create }}"
+- name: Create User for idrac
+  dellemc.openmanage.idrac_user: "{{ item }}"
+  loop: "{{ fs_items }}"
+  register: user_create
+
+- name: display
+  ansible.builtin.debug:
+    msg: "{{ user_create }}"
