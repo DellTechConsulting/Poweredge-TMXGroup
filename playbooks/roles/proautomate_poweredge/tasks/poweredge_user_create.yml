@@ -7,8 +7,12 @@
 - debug:
     msg: "{{array_ips}}"
 
-- set_fact: 
-  total_count: "{{ idrac_config | length }}"    
+- name: Import idrac ips   
+  ansible.builtin.set_fact:
+    total_count: "{{ idrac_config | length }}" 
+
+- debug: 
+    msg: "{{total_count}}"
 
 # - name: Set the array ip
 #   ansible.builtin.set_fact:
