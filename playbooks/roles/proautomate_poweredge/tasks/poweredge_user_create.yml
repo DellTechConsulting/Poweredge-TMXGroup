@@ -52,7 +52,7 @@
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  with_together:
+  loop:
     - "{{ user_configs }}"
     - "{{ array_ips }}"  
   
