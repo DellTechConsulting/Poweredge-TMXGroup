@@ -8,12 +8,11 @@
 
 - name: Set the array ip
   ansible.builtin.set_fact:
-    array_base:
-      array_ip: "{{item.ip}}"
-      user: "{{item.user}}"
-      password: "{{item.password}}"
-    loop: "{{idrac}}"
-    when: item.ip is in array_ips
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip is in array_ips
 
     
 - name: Import user create configurations
@@ -28,7 +27,7 @@
       idrac_user: "{{ user }}"
       idrac_password: "{{ password }}"
       state: "present"
-    loop: "{{array_base}}"
+  
     
 - debug:
     msg: 
