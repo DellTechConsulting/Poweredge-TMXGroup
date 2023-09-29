@@ -38,18 +38,18 @@
     - "{{ idrac }}"
     - "{{ real_ip }}"   
 
-
-    
-
-  
 - name: Combine config
   set_fact:
     fs_item: "{{ fs_item }} + [ '{{ user_configs }}' ]"
 
+- name: Combine config
+  set_fact:
+    fs_item: "{{ fs_item }} + [ '{{ item }}' ]"
+  loop: "{{ idrac_base }}"
+
+
 - debug:
-    var: idrac_base
-- debug:
-    var: user_configs
+    var: fs_item
 
 
 # - debug:
