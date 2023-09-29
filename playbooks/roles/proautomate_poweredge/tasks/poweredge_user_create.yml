@@ -27,6 +27,7 @@
       idrac_user: "{{ user }}"
       idrac_password: "{{ password }}"
       state: "present"
+  loop: "{{array_ips}}"  
   
     
 - debug:
