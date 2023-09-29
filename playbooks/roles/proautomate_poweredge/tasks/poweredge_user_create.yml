@@ -45,7 +45,7 @@
 - name: Combine config
   set_fact:
     fs_item: "{{ fs_item }} + [ '{{ item }}' ]"
-  loop: "{{ idrac_base }}"
+  with_items: "{{ idrac_base }}"
 
 
 - debug:
