@@ -15,4 +15,5 @@ idrac:
 verifycert: false
 real_ip: []
 idrac_base: []
+fs_item: []
 
