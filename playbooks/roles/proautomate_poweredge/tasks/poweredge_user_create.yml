@@ -39,8 +39,9 @@
     - "{{ real_ip }}"   
 
 - debug:
-    - var: idrac_base
-    - var: user_configs
+    var: idrac_base
+- debug:
+    var: user_configs
     
 
   
