@@ -14,7 +14,7 @@
   loop:
     - "{{idrac}}"
     - "{{array_ips}}"
-  when: item.ip == "{{idrac_config.idrac_ip}}"
+  #when: item.ip == "{{idrac_config.idrac_ip}}"
 
 - debug:
     msg: 
