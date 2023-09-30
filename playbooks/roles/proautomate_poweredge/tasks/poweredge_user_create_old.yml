@@ -1,20 +1,11 @@
 ---
-- name: Import idrac ips   
+- name: setting the array ip
   ansible.builtin.set_fact:
-    array_ips: "{{idrac_config.idrac_ip}}"
-  
-- debug:
-    msg: "{{array_ips}}"
-
-# - name: Set the array ip
-#   block:
-#     - name: setting the array ip
-#       ansible.builtin.set_fact:
-#         array_ip: "{{item.ip}}"
-#         user: "{{item.user}}"
-#         password: "{{item.password}}"
-#     # loop: "{{idrac}}"
-#       when: item.ip is in array_ips
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip is in array_ips
 
 - name: Import user create configurations
   ansible.builtin.set_fact:
@@ -30,10 +21,7 @@
       state: "present"
   loop: "{{idrac}}" 
   when: item.ip is in array_ips  
-  
-
-  
-    
+      
 - debug:
     msg: 
     - "{{idrac_base.idrac_ip}}"
