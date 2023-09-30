@@ -56,19 +56,22 @@
 
  # no_log: true
     
-# - name: Combine configurations
-#   ansible.builtin.set_fact:
-#     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-#   with_together: 
-#   - "{{ user_configs }}"
-#  # no_log: true
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    user_configs: "{{ (user_configs | default([])) + [ item | combine(idrac_base) ] }}"
+  with_nested: 
+  - "{{ user_configs }}"
+ # no_log: true
 
-- name: Create User for idrac
-  dellemc.openmanage.idrac_user: "{{ item.0 }}{{ item.1 }}"
-  with_nested:
-    - "{{ user_configs }}"
-    - "{{ idrac_base }}"
-  register: user_create
+ - debug:
+    var: user_configs
+
+# - name: Create User for idrac
+#   dellemc.openmanage.idrac_user: "{{ item.0 }}{{ item.1 }}"
+#   with_nested:
+#     - "{{ user_configs }}"
+#     - "{{ idrac_base }}"
+#   register: user_create
 
 # - name: display
 #   ansible.builtin.debug:
