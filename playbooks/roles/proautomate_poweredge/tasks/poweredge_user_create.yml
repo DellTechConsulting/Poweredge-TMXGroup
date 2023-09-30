@@ -7,9 +7,18 @@
     msg: "{{array_ips}}"
 
 
-# - name: Import user create configurations
-#   ansible.builtin.set_fact:
-#     user_configs: "{{ idrac_config.user.users }}"  
+- name: Import user create configurations
+  ansible.builtin.set_fact:
+    user_configs: "{{ idrac_config.user.users }}"  
+
+- name: "running playbook for all powerEdge"
+  include_tasks: "poweredge_user_create_old.yml"
+  vars:
+      array_ips: "{{ item }}"
+  loop: "{{ array_ips }}"
+  
+
+
 
 # - name: Set base module configuration
 #   ansible.builtin.set_fact:
