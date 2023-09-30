@@ -63,7 +63,7 @@
   - "{{ user_configs }}"
  # no_log: true
 
- - debug:
+- debug:
     var: user_configs
 
 # - name: Create User for idrac
