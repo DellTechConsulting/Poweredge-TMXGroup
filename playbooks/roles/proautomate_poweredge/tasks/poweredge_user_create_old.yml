@@ -1,6 +1,7 @@
 ---
 - debug:
-    var: {{ array_ips }}
+    var: array_ips
+    
 - name: setting the array ip
   ansible.builtin.set_fact:
     array_ip: "{{item.ip}}"
