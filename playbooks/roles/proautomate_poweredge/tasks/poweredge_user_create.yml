@@ -50,7 +50,9 @@
 - name: Combine configurations
   debug:
     msg: "{{ item.0 }} {{ item.1 }}"
-  loop: "{{ user_configs | zip(idrac_base) | list }}"
+  loop: 
+  - "{{ user_configs }}"
+  - "{{ idrac_base }}"
 
  # no_log: true
     
