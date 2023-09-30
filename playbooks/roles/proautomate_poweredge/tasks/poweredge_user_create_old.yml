@@ -1,10 +1,10 @@
 ---
-- name: Import idrac ips   
-  ansible.builtin.set_fact:
-    array_ips: "{{idrac_config.idrac_ip}}"
+# - name: Import idrac ips   
+#   ansible.builtin.set_fact:
+#     array_ips: "{{idrac_config.idrac_ip}}"
   
-- debug:
-    msg: "{{array_ips}}"
+# - debug:
+#     msg: "{{array_ips}}"
 
 # - name: Set the array ip
 #   block:
