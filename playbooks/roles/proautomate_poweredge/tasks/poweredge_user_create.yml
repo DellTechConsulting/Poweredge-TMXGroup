@@ -46,6 +46,14 @@
     var: user_configs
 - debug:
     var: idrac_base
+
+- name: Combine configurations
+  debug:
+    msg: "{{ (item.0 | default([])) + [ item | combine(item.1) ] }}"
+  with_together: 
+  - "{{ user_configs }}"
+  - "{{ idrac_base }}"
+ # no_log: true
     
 # - name: Combine configurations
 #   ansible.builtin.set_fact:
@@ -54,12 +62,12 @@
 #   - "{{ user_configs }}"
 #  # no_log: true
 
-- name: Create User for idrac
-  dellemc.openmanage.idrac_user: "{{ item.0 }}{{ item.1 }}"
-  with_together:
-    - "{{ user_configs }}"
-    - "{{ idrac_base }}"
-  register: user_create
+# - name: Create User for idrac
+#   dellemc.openmanage.idrac_user: "{{ item.0 }}{{ item.1 }}"
+#   with_together:
+#     - "{{ user_configs }}"
+#     - "{{ idrac_base }}"
+#   register: user_create
 
 # - name: display
 #   ansible.builtin.debug:
