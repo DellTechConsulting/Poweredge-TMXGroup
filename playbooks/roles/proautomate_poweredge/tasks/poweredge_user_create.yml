@@ -49,7 +49,7 @@
 
 - name: Combine configurations
   debug:
-    msg: "{{ item.0 + item.1 }}"
+    msg: "{{ item.0 | zip(item.1) | list }}"
   with_together: 
   - "{{ user_configs }}"
   - "{{ idrac_base }}"
