@@ -57,7 +57,7 @@
 - name: Create User for idrac
   dellemc.openmanage.idrac_user: "{{ item.0 }}{{ item.1 }}"
   with_together:
-    - "{{ user_config }}"
+    - "{{ user_configs }}"
     - "{{ idrac_base }}"
   register: user_create
 
