@@ -1,15 +1,33 @@
 ---
-# - name: Import idrac ips   
-#   ansible.builtin.set_fact:
-#     array_ips: "{{idrac_config.idrac_ip}}"
-  
-# - debug:
-#     msg: "{{array_ips}}"
-
-
-- name: Import user create configurations
+- name: Import idrac ips   
   ansible.builtin.set_fact:
-    user_configs: "{{ idrac_config.user.users }}"  
+    array_ips: "{{idrac_config.idrac_ip}}"
+  
+- debug:
+    msg: "{{array_ips}}"
+
+- name: setting up real ip
+  set_fact:
+    real_ip: "{{ real_ip }} + [ '{{ item.1.ip }}' ]"   
+  when:
+    item.0 in item.1.ip
+  with_together:
+    - "{{ array_ips }}"
+    - "{{ idrac }}"
+    
+- name: printing requested idrac ip
+  debug:
+    var: real_ip
+    
+- name: running task for multiple idrac
+  include_tasks: poweredge_user_create_old.yml
+    vars:
+        array_ips: "{{ item }}"
+  loop: {{ real_ip }}
+
+# - name: Import user create configurations
+#   ansible.builtin.set_fact:
+#     user_configs: "{{ idrac_config.user.users }}"  
 
 
 # - name: Set base module configuration
@@ -37,29 +55,14 @@
 #   loop: "{{ user_configs }}"
 #  # no_log: true
 
-- name: Create User for idrac
-  dellemc.openmanage.idrac_user: 
-    idrac_ip: 10.56.114.237
-    idrac_user: root
-    validate_certs: 'False'
-    idrac_password: idracP@ssw0rd
-    state: present
-    user_name: test_user
-    user_password: Welcome2Dell1!
-    privilege: Administrator
-    ipmi_lan_privilege: Administrator
-    ipmi_serial_privilege: Administrator
-    enable: true
-    sol_enable: true
-    protocol_enable: true
-    authentication_protocol: SHA
-    privacy_protocol: AES
-  loop: 
-  - "{{ user_configs }}"
-  register: user_create
+# - name: Create User for idrac
+#   dellemc.openmanage.idrac_user: 
+#   loop: 
+#   - "{{ user_configs }}"
+#   register: user_create
 
 
-- name: display
-  ansible.builtin.debug:
-    msg: "{{ user_create }}"
+# - name: display
+#   ansible.builtin.debug:
+#     msg: "{{ user_create }}"
 
