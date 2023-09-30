@@ -2,13 +2,11 @@
 - debug:
     var: array_ips
     
-# - name: setting the array ip
-#   ansible.builtin.set_fact:
-#     array_ip: "{{item.ip}}"
-#     user: "{{item.user}}"
-#     password: "{{item.password}}"
-#   loop: "{{idrac}}"
-#   when: item.ip == array_ips
+
+- debug:
+    var: item.ip   
+  loop: "{{idrac}}"
+  # when: item.ip == array_ips
 
 - name: Import user create configurations
   ansible.builtin.set_fact:
