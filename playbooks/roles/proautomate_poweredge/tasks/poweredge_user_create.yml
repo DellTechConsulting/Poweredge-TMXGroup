@@ -10,7 +10,7 @@
   set_fact:
     real_ip: "{{ real_ip }} + [ '{{ item.1.ip }}' ]"   
   when:
-    item.0 in item.1.ip
+    item.0 == item.1.ip
   with_together:
     - "{{ array_ips }}"
     - "{{ idrac }}"
