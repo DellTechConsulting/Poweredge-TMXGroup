@@ -6,7 +6,6 @@
 - debug:
     var: item.ip   
   loop: "{{idrac}}"
-  # when: item.ip == array_ips
 
 - name: Import user create configurations
   ansible.builtin.set_fact:
@@ -20,8 +19,9 @@
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
       state: "present"
+  when: array_ips  == item.ip
   loop: "{{idrac}}" 
-  when: "array_ips == item.ip"
+  
       
 - debug:
     msg: 
