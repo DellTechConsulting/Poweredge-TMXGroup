@@ -23,7 +23,7 @@
   include_tasks: poweredge_user_create_old.yml
   vars:
     array_ips: "{{ item }}"
-  loop: {{ real_ip }}
+  loop: "{{ real_ip }}"
 
 # - name: Import user create configurations
 #   ansible.builtin.set_fact:
