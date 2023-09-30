@@ -38,12 +38,9 @@
 #  # no_log: true
 
 - name: Create User for idrac
-  dellemc.openmanage.idrac_user: "{{ item.0 }}"
-  vars:
-    idrac_password: "{{ item.1.password }}"
+  dellemc.openmanage.idrac_user: "{{ item }}"
   loop: 
   - "{{ user_configs }}"
-  - "{{ idrac }}"
   register: user_create
 
 
