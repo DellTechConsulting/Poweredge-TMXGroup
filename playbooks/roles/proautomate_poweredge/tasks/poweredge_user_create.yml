@@ -21,8 +21,8 @@
     
 - name: running task for multiple idrac
   include_tasks: poweredge_user_create_old.yml
-    vars:
-      array_ips: "{{ item }}"
+  vars:
+    array_ips: "{{ item }}"
   loop: {{ real_ip }}
 
 # - name: Import user create configurations
