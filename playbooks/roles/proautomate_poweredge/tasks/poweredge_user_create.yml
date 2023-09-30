@@ -15,7 +15,7 @@
   include_tasks: "poweredge_user_create_old.yml"
   vars:
       array_ips: "{{ item }}"
-  loop: "{{ array_ips }}"
+  with_items: "{{ array_ips }}"
   
 
 
