@@ -1,7 +1,11 @@
 ---
 - debug:
     var: array_ips
+- set_fact:
+    temp_ip: "{{ array_ips }}"
     
+ - debug:
+    var: temp_ip     
 
 - debug:
     var: item.ip   
@@ -19,7 +23,7 @@
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
       state: "present"
-  when: array_ips == item.ip 
+  when: temp_ip == item.ip 
   loop: "{{idrac}}" 
   
       
