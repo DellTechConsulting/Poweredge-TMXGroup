@@ -19,7 +19,7 @@
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
       state: "present"
-  when: array_ips[0] == item.ip 
+  when: array_ips == item.ip 
   loop: "{{idrac}}" 
   
       
