@@ -1,15 +1,18 @@
 ---
-- debug:
+- name: Printing ip coming from 1st playbook
+  debug:
     var: array_ips
-- set_fact:
+    
+- name: setting fact for comparision
+  set_fact:
     temp_ip: "{{ array_ips }}"
     
-- debug:
-    var: temp_ip     
+# - debug:
+#     var: temp_ip     
 
-- debug:
-    var: item.ip   
-  loop: "{{idrac}}"
+# - debug:
+#     var: item.ip   
+#   loop: "{{idrac}}"
 
 - name: Import user create configurations
   ansible.builtin.set_fact:
