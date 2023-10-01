@@ -20,7 +20,7 @@
     var: real_ip
     
 - name: running task for multiple idrac
-  include_tasks: poweredge_user_create_old.yml
+  include_tasks: poweredge_user_create_actual.yml
   vars:
     array_ips: "{{ item }}"
   loop: "{{ real_ip }}"
