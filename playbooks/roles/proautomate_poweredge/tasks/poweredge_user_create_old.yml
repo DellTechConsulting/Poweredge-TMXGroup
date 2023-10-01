@@ -4,7 +4,7 @@
 - set_fact:
     temp_ip: "{{ array_ips }}"
     
- - debug:
+- debug:
     var: temp_ip     
 
 - debug:
