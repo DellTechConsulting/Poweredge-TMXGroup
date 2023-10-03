@@ -18,7 +18,7 @@
       validate_certs: "{{ verifycert }}"
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
-      state: "present"
+      state: "absent"
   when: temp_ip == item.ip 
   loop: "{{idrac}}" 
 
