@@ -1,0 +1,38 @@
+---
+- name: Printing ip selected from 1st request
+  debug:
+    var: array_ip
+    
+- name: setting fact for comparision
+  set_fact:
+    temp_ip: "{{ array_ip }}"
+
+- name: Import powerconfig configurations
+  ansible.builtin.set_fact:
+    power_configs: "{{ idrac_config.power.power_state }}"
+
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      baseuri: "{{ item.ip }}"
+      validate_certs: "{{ verifycert }}"
+      username: "{{ item.user }}"
+      password: "{{ item.password }}"
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}"     
+  #no_log: true
+
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
+  loop: "{{ power_configs }}"
+  no_log: true
+
+- name: Power on the idrac
+  dellemc.openmanage.redfish_powerstate: "{{ item }}"
+  loop: "{{ fs_items }}"
+  register: power_result
+
+- name: display the result
+  ansible.builtin.debug:
+    msg: "{{ power_result }}"
