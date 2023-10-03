@@ -18,15 +18,15 @@
       validate_certs: "{{ verifycert }}"
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
-      state: "present"
   when: temp_ip == item.ip 
-  loop: "{{idrac}}" 
+  loop: "{{idrac}}"   
+    no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
   loop: "{{ bios_configs }}"
-  #no_log: true
+  no_log: true
 
 - name: Configure Bios Settings for idrac
   dellemc.openmanage.idrac_bios: "{{ item }}"
