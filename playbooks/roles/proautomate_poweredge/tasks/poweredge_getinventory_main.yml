@@ -1,0 +1,22 @@
+---
+- name: Printing ip selected from 1st request
+  debug:
+    var: array_ip
+    
+- name: setting fact for comparision
+  set_fact:
+    temp_ip: "{{ array_ip }}"
+
+- name: Get System Inventory
+  dellemc.openmanage.dellemc_get_system_inventory:
+    idrac_ip: "{{ item.ip }}"
+    validate_certs: "{{ verifycert }}"
+    idrac_user: "{{ item.user }}"
+    idrac_password: "{{ item.password }}"
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}"    
+  register: get_inven
+  
+- name: Display System Inventory details
+  ansible.builtin.debug:
+    msg: "{{ get_inven }}"
