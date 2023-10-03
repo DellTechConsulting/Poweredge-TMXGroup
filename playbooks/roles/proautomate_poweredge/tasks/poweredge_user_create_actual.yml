@@ -1,5 +1,5 @@
 ---
-- name: Printing ip coming from 1st playbook
+- name: Printing ip selected from 1st request
   debug:
     var: array_ips
     
