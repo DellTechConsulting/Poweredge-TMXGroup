@@ -25,5 +25,5 @@
 - name: running task for multiple idrac
   include_tasks: poweredge_user_delete_main.yml
   vars:
-    array_ips: "{{ item }}"
+    array_ip: "{{ item }}"
   loop: "{{ array_ips }}"
