@@ -7,13 +7,6 @@
   set_fact:
     temp_ip: "{{ array_ips }}"
     
-# - debug:
-#     var: temp_ip     
-
-# - debug:
-#     var: item.ip   
-#   loop: "{{idrac}}"
-
 - name: Import user create configurations
   ansible.builtin.set_fact:
     user_configs: "{{ idrac_config.user.users }}"  
@@ -27,8 +20,7 @@
       idrac_password: "{{ item.password }}"
       state: "present"
   when: temp_ip == item.ip 
-  loop: "{{idrac}}" 
-  
+  loop: "{{idrac}}"   
       
 - debug:
     msg: 
@@ -36,8 +28,6 @@
     - "{{idrac_base.idrac_user}}"
     - "{{idrac_base.idrac_password}}"
 
-
- # no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
