@@ -1,0 +1,23 @@
+---
+- name: Printing ip selected from 1st request
+  debug:
+    var: array_ip
+    
+- name: setting fact for comparision
+  set_fact:
+    temp_ip: "{{ array_ip }}"
+
+- name: View all volume details
+  dellemc.openmanage.dellemc_idrac_storage_volume:
+    idrac_ip: "{{ item.ip }}"
+    validate_certs: "{{ verifycert }}"
+    idrac_user: "{{ item.user }}"
+    idrac_password: "{{ item.password }}"
+    state: "view"
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}"   
+  register: storage_details
+
+- name: Print the all storage details
+  ansible.builtin.debug:
+    msg: "{{ storage_details }}"
