@@ -20,7 +20,7 @@
       idrac_password: "{{ item.password }}"
   when: temp_ip == item.ip 
   loop: "{{idrac}}"   
-    no_log: true
+   # no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
