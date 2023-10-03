@@ -1,0 +1,15 @@
+---
+- name: Import idrac ips   
+  ansible.builtin.set_fact:
+    array_ips: "{{idrac_config.idrac_ip}}"
+  
+- debug:
+    msg: "{{array_ips}}"
+
+
+    
+- name: running task for multiple idrac
+  include_tasks: poweredge_getinventory_main.yml
+  vars:
+    array_ip: "{{ item }}"
+  loop: "{{ array_ips }}"
