@@ -1,36 +1,26 @@
 ---
-- name: Set the array ip
+- name: Import idrac ips   
   ansible.builtin.set_fact:
-    array_ip: "{{item.ip}}"
-    user: "{{item.user}}"
-    password: "{{item.password}}"
-  loop: "{{idrac}}"
-  when: item.ip == "{{idrac_config.idrac_ip}}" 
+    array_ips: "{{idrac_config.idrac_ip}}"
+  
+- debug:
+    msg: "{{array_ips}}"
 
-- name: Import bios configurations
-  ansible.builtin.set_fact:
-    bios_configs: "{{ idrac_config.bios.bios_settings }}"
-
-- name: Set base module configuration
-  ansible.builtin.set_fact:
-    idrac_base:
-      idrac_ip: "{{ array_ip }}"
-      validate_certs: "{{ verifycert }}"
-      idrac_user: "{{ user }}"
-      idrac_password: "{{ password }}"
-    no_log: true
-
-- name: Combine configurations
-  ansible.builtin.set_fact:
-    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  loop: "{{ bios_configs }}"
-  no_log: true
-
-- name: Configure Bios Settings for idrac
-  dellemc.openmanage.idrac_bios: "{{ item }}"
-  loop: "{{ fs_items }}"
-  register: bios
-
-- name: display the bios configuration result
-  ansible.builtin.debug:
-    msg: "{{ bios }}"
+- name: setting up real ip
+  set_fact:
+    real_ip: "{{ real_ip }} + [ '{{ item.1.ip }}' ]"   
+  when:
+    item.0 == item.1.ip
+  with_together:
+    - "{{ array_ips }}"
+    - "{{ idrac }}"
+    
+- name: printing requested idrac ip
+  debug:
+    var: real_ip
+    
+- name: running task for multiple idrac
+  include_tasks: poweredge_biosconfig_main.yml
+  vars:
+    array_ips: "{{ item }}"
+  loop: "{{ real_ip }}"
