@@ -1,11 +1,11 @@
 ---
 - name: Printing ip selected from 1st request
   debug:
-    var: array_ips
+    var: array_ip
     
 - name: setting fact for comparision
   set_fact:
-    temp_ip: "{{ array_ips }}"
+    temp_ip: "{{ array_ip }}"
 
 - name: Import bios configurations
   ansible.builtin.set_fact:
