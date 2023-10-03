@@ -5,23 +5,7 @@
   
 - debug:
     msg: "{{array_ips}}"
-
-- debug:
-    msg: "{{idrac}}"    
-
-# - name: setting up real ip
-#   set_fact:
-#     real_ip: "{{ real_ip }} + [ '{{ item.1.ip }}' ]"   
-#   when:
-#     item.0 == item.1.ip
-#   with_together:
-#     - "{{ array_ips }}"
-#     - "{{ idrac }}"
-    
-# - name: printing requested idrac ip
-#   debug:
-#     var: real_ip
-    
+   
 - name: running task for multiple idrac
   include_tasks: poweredge_user_delete_main.yml
   vars:
