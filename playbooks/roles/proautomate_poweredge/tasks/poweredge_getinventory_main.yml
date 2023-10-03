@@ -8,7 +8,7 @@
     temp_ip: "{{ array_ip }}"
 
 - name: Get System Inventory
-  dellemc.openmanage.dellemc_get_system_inventory:
+  dellemc.openmanage.idrac_system_info:
     idrac_ip: "{{ item.ip }}"
     validate_certs: "{{ verifycert }}"
     idrac_user: "{{ item.user }}"
