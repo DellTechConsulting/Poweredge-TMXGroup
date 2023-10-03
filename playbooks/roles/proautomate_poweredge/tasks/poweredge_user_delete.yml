@@ -6,6 +6,9 @@
 - debug:
     msg: "{{array_ips}}"
 
+- debug:
+    msg: "{{idrac}}"    
+
 - name: setting up real ip
   set_fact:
     real_ip: "{{ real_ip }} + [ '{{ item.1.ip }}' ]"   
