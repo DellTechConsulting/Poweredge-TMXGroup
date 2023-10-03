@@ -6,9 +6,10 @@
 - debug:
     msg: "{{array_ips}}"
 
+
     
 - name: running task for multiple idrac
   include_tasks: poweredge_biosconfig_main.yml
   vars:
     array_ip: "{{ item }}"
-  loop: "{{ real_ip }}"
+  loop: "{{ array_ips }}"
