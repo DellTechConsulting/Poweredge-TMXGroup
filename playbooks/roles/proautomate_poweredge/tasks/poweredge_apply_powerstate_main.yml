@@ -20,7 +20,7 @@
       password: "{{ item.password }}"
   when: temp_ip == item.ip 
   loop: "{{idrac}}"     
-  #no_log: true
+  no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
@@ -31,8 +31,15 @@
 - name: Power on the idrac
   dellemc.openmanage.redfish_powerstate: "{{ item }}"
   loop: "{{ fs_items }}"
+  loop_control:
+    pause: 12
   register: power_result
+  no_log: true
 
 - name: display the result
   ansible.builtin.debug:
     msg: "{{ power_result }}"
+
+- name: Pause for 5 seconds before running again
+  ansible.builtin.pause:
+    seconds: 5  

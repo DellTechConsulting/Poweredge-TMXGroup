@@ -31,8 +31,14 @@
 - name: Create virtual disk
   dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
   loop: "{{ fs_items }}"
+  loop_control:
+    pause: 12
   register: create_vdisk
 
 - name: Display result
   ansible.builtin.debug:
     msg: "{{ create_vdisk }}"
+
+- name: Pause for 5 seconds before running again
+  ansible.builtin.pause:
+    seconds: 5    

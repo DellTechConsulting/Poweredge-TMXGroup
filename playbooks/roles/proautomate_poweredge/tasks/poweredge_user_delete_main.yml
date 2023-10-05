@@ -21,18 +21,25 @@
       state: "absent"
   when: temp_ip == item.ip 
   loop: "{{idrac}}" 
+  no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
   loop: "{{ user_configs }}"
-  #no_log: true
+  no_log: true
 
 - name: Delete User for idrac
   dellemc.openmanage.idrac_user: "{{ item }}"
   loop: "{{ fs_items }}"
+  loop_control:
+    pause: 12
   register: user_delete
 
 - name: display
   ansible.builtin.debug:
     msg: "{{ user_delete }}"
+
+- name: Pause for 5 seconds before running again
+  ansible.builtin.pause:
+    seconds: 5

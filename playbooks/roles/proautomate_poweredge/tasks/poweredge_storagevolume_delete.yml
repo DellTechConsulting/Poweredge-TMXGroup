@@ -1,37 +1,15 @@
 ---
-- name: Set the array ip
+- name: Import idrac ips   
   ansible.builtin.set_fact:
-    array_ip: "{{item.ip}}"
-    user: "{{item.user}}"
-    password: "{{item.password}}"
-  loop: "{{idrac}}"
-  when: item.ip == "{{idrac_config.idrac_ip}}" 
+    array_ips: "{{idrac_config.idrac_ip}}"
+  
+- debug:
+    msg: "{{array_ips}}"
 
-- name: Import virtual disk delete configurations
-  ansible.builtin.set_fact:
-    storage_configs: "{{ idrac_config.storagevolume.storagevolume_config }}"
 
-- name: Set base module configuration
-  ansible.builtin.set_fact:
-    idrac_base:
-      idrac_ip: "{{ array_ip }}"
-      validate_certs: "{{ verifycert }}"
-      idrac_user: "{{ user }}"
-      idrac_password: "{{ password }}"
-      state: "delete"
-  no_log: true
-
-- name: Combine configurations
-  ansible.builtin.set_fact:
-    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  loop: "{{ storage_configs }}"
-  no_log: true
-
-- name: Delete virtual disk
-  dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
-  loop: "{{ fs_items }}"
-  register: delete_vdisk
-
-- name: Display result
-  ansible.builtin.debug:
-    msg: "{{ delete_vdisk }}"
+    
+- name: running task for multiple idrac
+  include_tasks: poweredge_storagevolume_delete_main.yml
+  vars:
+    array_ip: "{{ item }}"
+  loop: "{{ array_ips }}"

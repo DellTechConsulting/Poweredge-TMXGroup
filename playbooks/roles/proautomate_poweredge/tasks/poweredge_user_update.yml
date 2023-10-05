@@ -1,12 +1,4 @@
 ---
-- name: Set the array ip
-  ansible.builtin.set_fact:
-    array_ip: "{{item.ip}}"
-    user: "{{item.user}}"
-    password: "{{item.password}}"
-  loop: "{{idrac}}"
-  when: item.ip == "{{idrac_config.idrac_ip}}" 
-
 - name: Import user update configurations
   ansible.builtin.set_fact:
     user_configs: "{{ idrac_config.user.users }}"
@@ -14,12 +6,15 @@
 - name: Set base module configuration
   ansible.builtin.set_fact:
     idrac_base:
-      idrac_ip: "{{ array_ip }}"
+      idrac_ip: "{{ item.ip }}"
       validate_certs: "{{ verifycert }}"
-      idrac_user: "{{ user }}"
-      idrac_password: "{{ password }}"
+      idrac_user: "{{ item.user }}"
+      idrac_password: "{{ item.password }}"
       state: "present"
-  no_log: true
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}" 
+  no_log: true    
+ 
 
 - name: Combine configurations
   ansible.builtin.set_fact:
@@ -30,8 +25,14 @@
 - name: Update User for idrac
   dellemc.openmanage.idrac_user: "{{ item }}"
   loop: "{{ fs_items }}"
+  loop_control:
+    pause: 12
   register: user_update
 
 - name: display
   ansible.builtin.debug:
     msg: "{{ user_update }}"
+
+- name: Pause for 5 seconds before running again
+  ansible.builtin.pause:
+    seconds: 5    

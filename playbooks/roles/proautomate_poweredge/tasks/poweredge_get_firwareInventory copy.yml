@@ -1,0 +1,19 @@
+---
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip == "{{idrac_config.idrac_ip}}" 
+
+- name: Get Firmware System Inventory
+  dellemc.openmanage.idrac_firmware_info:
+    idrac_ip: "{{ array_ip }}"
+    validate_certs: "{{ verifycert }}"
+    idrac_user: "{{ user }}"
+    idrac_password: "{{ password }}"
+  register: firmware_details
+- name: Display Firware Inventory details
+  ansible.builtin.debug:
+    msg: "{{ firmware_details }}"

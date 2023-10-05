@@ -6,10 +6,11 @@
 - name: setting fact for comparision
   set_fact:
     temp_ip: "{{ array_ip }}"
+ 
 
-- name: Import bios configurations
+- name: Import firmware update configurations
   ansible.builtin.set_fact:
-    bios_configs: "{{ idrac_config.bios.bios_settings }}"
+    firmware_configs: "{{ idrac_config.firmware.firmware_update }}"
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
@@ -19,26 +20,26 @@
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
   when: temp_ip == item.ip 
-  loop: "{{idrac}}"   
+  loop: "{{idrac}}"    
   no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  loop: "{{ bios_configs }}"
+  loop: "{{ firmware_configs }}"
   no_log: true
 
-- name: Configure Bios Settings for idrac
-  dellemc.openmanage.idrac_bios: "{{ item }}"
+- name: firware update for idrac
+  dellemc.openmanage.idrac_firmware: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
     pause: 12
-  register: bios
+  register: firmwareconfig
 
-- name: display the bios configuration result
+- name: display the firware update result
   ansible.builtin.debug:
-    msg: "{{ bios }}"
+    msg: "{{ firmwareconfig }}"
 
 - name: Pause for 5 seconds before running again
   ansible.builtin.pause:
-    seconds: 5     
+    seconds: 5    

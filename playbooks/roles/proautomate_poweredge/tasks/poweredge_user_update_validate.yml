@@ -1,34 +1,13 @@
 ---
-- name: Set the array ip
+- name: Import idrac ips   
   ansible.builtin.set_fact:
-    array_ip: "{{item.ip}}"
-    user: "{{item.user}}"
-    password: "{{item.password}}"
-  loop: "{{idrac}}"
-  when: item.ip == "{{idrac_config.idrac_ip}}" 
-
-- name: get all user on iDRAC
-  ansible.builtin.uri:
-     url: "https://{{ array_ip }}/redfish/v1/AccountService/Accounts?$expand=*($levels=1)"
-     user: "{{ user }}"
-     password: "{{ password }}"
-     method: "GET"
-     status_code: 200
-     validate_certs: false
-     force_basic_auth: true
-     headers:
-        Accept: "application/json"
-  register: user_list
-- name: set fact if user exists
-  ansible.builtin.set_fact: myuser="{{ item.UserName }}"
-  with_items: "{{ user_list.json.Members }}"
-  when: item.UserName == idrac_config.user.users[0].user_name
-- name: end task as user is not present
-  ansible.builtin.fail:
-     msg: "User not present,Please create the user before update"
-  when: myuser is not defined
-
-- name: Include the base update task as the user exists
-  include_tasks: poweredge_user_update.yml
-  with_items: "{{ user_list.json.Members }}"
-  when: item.UserName == "user_name"
+    array_ips: "{{idrac_config.idrac_ip}}"
+  
+- debug:
+    msg: "{{array_ips}}"
+   
+- name: running task for multiple idrac
+  include_tasks: poweredge_user_update_validate_main.yml
+  vars:
+    array_ip: "{{ item }}"
+  loop: "{{ array_ips }}"

@@ -6,46 +6,39 @@
 - name: setting fact for comparision
   set_fact:
     temp_ip: "{{ array_ip }}"
-    
-- name: Import user create configurations
+
+- name: Import storage configurations
   ansible.builtin.set_fact:
-    user_configs: "{{ idrac_config.user.users }}"  
+    storage_configs: "{{ idrac_config.storage.storage_config }}"
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
     idrac_base:
-      idrac_ip: "{{ item.ip }}"
+      baseuri: "{{ item.ip }}"
       validate_certs: "{{ verifycert }}"
-      idrac_user: "{{ item.user }}"
-      idrac_password: "{{ item.password }}"
-      state: "present"
+      username: "{{ item.user }}"
+      password: "{{ item.password }}"
   when: temp_ip == item.ip 
-  loop: "{{idrac}}"  
-  no_log: true 
-      
-- debug:
-    msg: 
-    - "{{idrac_base.idrac_ip}}"
-    - "{{idrac_base.idrac_user}}"
-    - "{{idrac_base.idrac_password}}"
-
+  loop: "{{idrac}}"     
+  no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  loop: "{{ user_configs }}"
+  loop: "{{ storage_configs }}"
   no_log: true
 
-- name: Create User for idrac
-  dellemc.openmanage.idrac_user: "{{ item }}"
+- name: Configure Storage Settings for idrac
+  dellemc.openmanage.idrac_redfish_storage_controller: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
     pause: 12
-  register: user_create
+  register: storageconfigres
 
 - name: display
   ansible.builtin.debug:
-    msg: "{{ user_create }}"
+    msg: "{{ storageconfigres }}"
+
 
 - name: Pause for 5 seconds before running again
   ansible.builtin.pause:

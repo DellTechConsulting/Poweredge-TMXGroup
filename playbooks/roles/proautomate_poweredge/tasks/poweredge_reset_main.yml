@@ -1,0 +1,23 @@
+---
+- name: Printing ip selected from 1st request
+  debug:
+    var: array_ip
+    
+- name: setting fact for comparision
+  set_fact:
+    temp_ip: "{{ array_ip }}"
+
+- name: Reset idrac
+  dellemc.openmanage.idrac_reset:
+    idrac_ip: "{{ item.ip }}"
+    validate_certs: "{{ verifycert }}"
+    idrac_user: "{{ item.user }}"
+    idrac_password: "{{ item.password }}"
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}"    
+  register: reset_result
+
+
+- name: display result
+  ansible.builtin.debug:
+    msg: "{{ reset_result }}"

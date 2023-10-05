@@ -1,0 +1,36 @@
+---
+- name: Set the array ip
+  ansible.builtin.set_fact:
+    array_ip: "{{item.ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+  loop: "{{idrac}}"
+  when: item.ip == "{{idrac_config.idrac_ip}}" 
+
+- name: Import os deploy configurations
+  ansible.builtin.set_fact:
+    osdeploy_configs: "{{ idrac_config.OSdeploy.OSdeploy_config }}"
+
+- name: Set base module configuration
+  ansible.builtin.set_fact:
+    idrac_base:
+      idrac_ip: "{{ array_ip }}"
+      validate_certs: "{{ verifycert }}"
+      idrac_user: "{{ user }}"
+      idrac_password: "{{ password }}"
+  no_log: true
+
+- name: Combine configurations
+  ansible.builtin.set_fact:
+    fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
+  loop: "{{ osdeploy_configs }}"
+  no_log: true
+
+- name: Deploy OS -boot to a network device
+  dellemc.openmanage.idrac_os_deployment: "{{ item }}"
+  loop: "{{ fs_items }}"
+  register: os_deploy_result
+
+- name: display the result
+  ansible.builtin.debug:
+    msg: "{{ os_deploy_result }}"
