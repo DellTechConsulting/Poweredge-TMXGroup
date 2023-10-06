@@ -9,7 +9,7 @@
 
 - name: Get Firmware System Inventory
   dellemc.openmanage.idrac_firmware_info:
-    idrac_ip: "{{ array_ip }}"
+    idrac_ip: "{{ item.ip }}"
     validate_certs: "{{ verifycert }}"
     idrac_user: "{{ item.user }}"
     idrac_password: "{{ item.password }}"
