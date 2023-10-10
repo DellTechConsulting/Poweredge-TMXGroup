@@ -6,6 +6,6 @@
 - name: Reset iDRAC
   ansible.builtin.include_role:
     name: proautomate_poweredge
-    tasks_from: poweredge_csiorconfig
+    tasks_from: poweredge_reset
   when:
     - idrac_config.reset is defined
