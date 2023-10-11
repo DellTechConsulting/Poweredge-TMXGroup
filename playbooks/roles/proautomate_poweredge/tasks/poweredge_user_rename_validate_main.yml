@@ -39,4 +39,4 @@
 - name: Include the base update task as the user exists
   include_tasks: poweredge_user_update.yml
   with_items: "{{ user_list.results[1].json.Members }}"
-  when: item.UserName == "user_name"
+  when: item.UserName == idrac_config.user.users[0].user_name
