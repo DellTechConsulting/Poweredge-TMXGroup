@@ -24,11 +24,11 @@
   register: user_list
 
 - debug:
-    msg: "{{user_list.results.json.Members}}"   
+    msg: "{{user_list.results[1].json.Members}}"   
 
 - name: set fact if user exists
   ansible.builtin.set_fact: myuser="{{ item.UserName }}"
-  with_items: "{{ user_list.results.json.Members }}"
+  with_items: "{{ user_list.results[1].json.Members }}"
   when: item.UserName == idrac_config.user.users[0].user_name
 
 - name: end task as user is not present
