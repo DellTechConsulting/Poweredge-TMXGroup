@@ -33,13 +33,11 @@
   dellemc.openmanage.idrac_attributes: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: eventingconfig
 
 - name: Display the eventing settings result
   ansible.builtin.debug:
     msg: "{{ eventingconfig }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5      
+     

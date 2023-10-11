@@ -32,13 +32,11 @@
   dellemc.openmanage.idrac_os_deployment: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: os_deploy_result
 
 - name: display the result
   ansible.builtin.debug:
     msg: "{{ os_deploy_result }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5      
+    

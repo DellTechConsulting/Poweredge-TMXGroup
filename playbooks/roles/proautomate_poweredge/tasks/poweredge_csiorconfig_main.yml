@@ -32,13 +32,11 @@
   dellemc.openmanage.dellemc_idrac_lc_attributes: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: csior
 
 - name: display the CSIOR setting result
   ansible.builtin.debug:
     msg: "{{ csior }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5     
+5     

@@ -34,3 +34,7 @@
 - name: display the result
   ansible.builtin.debug:
     msg: "{{ power_result }}"
+
+- name: Pause for 5 seconds before running again
+  ansible.builtin.pause:
+    seconds: 5     

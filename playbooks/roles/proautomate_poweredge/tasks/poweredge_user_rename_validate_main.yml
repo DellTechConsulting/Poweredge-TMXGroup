@@ -23,8 +23,6 @@
   no_log: true      
   register: user_list
 
-- debug:
-    msg: "{{user_list.results[1].json.Members}}"   
 
 - name: set fact if user exists
   ansible.builtin.set_fact: myuser="{{ item.UserName }}"

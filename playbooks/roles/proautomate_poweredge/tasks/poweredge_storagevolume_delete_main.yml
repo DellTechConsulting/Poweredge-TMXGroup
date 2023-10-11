@@ -33,7 +33,7 @@
   dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: delete_vdisk
 
 - name: Display result
@@ -41,6 +41,3 @@
     msg: "{{ delete_vdisk }}"
 
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5

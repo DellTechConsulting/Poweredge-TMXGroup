@@ -21,7 +21,7 @@
       state: "create"
   when: temp_ip == item.ip 
   loop: "{{idrac}}"     
-  #no_log: true
+  no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
@@ -32,13 +32,11 @@
   dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: create_vdisk
 
 - name: Display result
   ansible.builtin.debug:
     msg: "{{ create_vdisk }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5    
+   

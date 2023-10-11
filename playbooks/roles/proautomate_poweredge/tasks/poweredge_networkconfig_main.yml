@@ -32,13 +32,10 @@
   dellemc.openmanage.idrac_network: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: networkconfig
 
 - name: display the result
   ansible.builtin.debug:
     msg: "{{ networkconfig }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5   

@@ -32,7 +32,7 @@
   dellemc.openmanage.idrac_redfish_storage_controller: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: storageconfigres
 
 - name: display
@@ -40,6 +40,3 @@
     msg: "{{ storageconfigres }}"
 
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5

@@ -33,13 +33,11 @@
   dellemc.openmanage.idrac_firmware: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: firmwareconfig
 
 - name: display the firware update result
   ansible.builtin.debug:
     msg: "{{ firmwareconfig }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5    
+   

@@ -33,13 +33,10 @@
   dellemc.openmanage.idrac_user: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
-    pause: 12
+    pause: 10
   register: user_delete
 
 - name: display
   ansible.builtin.debug:
     msg: "{{ user_delete }}"
 
-- name: Pause for 5 seconds before running again
-  ansible.builtin.pause:
-    seconds: 5
