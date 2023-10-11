@@ -25,7 +25,7 @@
   
 - name: set fact if user exists
   ansible.builtin.set_fact: myuser="{{ item.UserName }}"
-  with_items: "{{ user_list.json.Members }}"
+  with_items: "{{ user_list.results[1].json.Members }}"
   when: item.UserName == idrac_config.user.users[0].user_name
 
 - name: end task as user is not present
@@ -35,5 +35,5 @@
 
 - name: Include the base update task as the user exists
   include_tasks: poweredge_user_update.yml
-  with_items: "{{ user_list.json.Members }}"
-  when: item.UserName == "user_name"
+  with_items: "{{ user_list.results[1].json.Members }}"
+  when: item.UserName == idrac_config.user.users[0].user_name
