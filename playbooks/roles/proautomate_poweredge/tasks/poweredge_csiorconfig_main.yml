@@ -39,4 +39,3 @@
   ansible.builtin.debug:
     msg: "{{ csior }}"
 
-5     
