@@ -28,3 +28,6 @@
   - include: tasks/poweredge_eventing.yml
   - include: tasks/poweredge_reset.yml
   - include: tasks/poweredge_bootconfig.yml
+
+  - debug:
+      msg: "end"

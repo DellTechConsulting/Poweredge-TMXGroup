@@ -1,0 +1,11 @@
+---
+##################################################################
+# This play performs Boot Configuration for Poweredge      #
+##################################################################
+
+- name: Boot-Configuration
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_bootconfig
+  when:
+    - idrac_config.boot.boot_settings is defined
