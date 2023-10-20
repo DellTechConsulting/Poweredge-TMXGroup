@@ -13,7 +13,10 @@ idrac:
    password: idracP@ssw0rd
  - ip: 10.56.114.239
    user: root
-   password: idracP@ssw0rd  
+   password: idracP@ssw0rd 
+ - ip: 100.77.14.138
+   user: ansibtest
+   password: calvin 
 
 verifycert: false
 real_ip: []
