@@ -9,7 +9,7 @@
 
 - name: Import bios configurations
   ansible.builtin.set_fact:
-    bios_configs: "{{ idrac_config.bios.bios_settings }}"
+    bios_configs: "{{ idrac_config.bios.bios_settings.boot_sources }}"
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
