@@ -1,0 +1,13 @@
+---
+##################################################################
+# This play performs Bios Configuration for Poweredge      #
+##################################################################
+
+- name: attribute-Configuration
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_attributes
+  when:
+    - idrac_config.idrac.attributes is defined
+
+ 

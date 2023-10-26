@@ -13,10 +13,11 @@ idrac:
    password: idracP@ssw0rd
  - ip: 10.56.114.239
    user: root
-   password: idracP@ssw0rd 
+   password: idracP@ssw0rd  
  - ip: 100.77.14.138
    user: ansibtest
    password: calvin 
+   
 
 verifycert: false
 real_ip: []
@@ -31,18 +32,77 @@ real_ip: []
 #             EmbNic1Nic2: Disabled
 
 
-idrac_config:
-  bios:
-    bios_settings:
-      - attributes:
-          PxeDev1EnDis: Enabled
-          PxeDev1Protocol: IPV4
-          PxeDev1VlanEnDis: Enabled
-          PxeDev1VlanId: 1
-          PxeDev1Interface: NIC.Embedded.1-1-1
-          PxeDev1VlanPriority: 2
-    state: biosconfig
-  idrac_ip:
-    - 10.56.114.239
-        
+# idrac_config:
+#   bios:
+#     bios_settings:
+#       - boot_sources:
+#           - Name: NIC.Integrated.1-2-3
+#             Enabled: true
+#             Index: 0
+#     state: biosconfig
+#   idrac_ip:
+#     - 10.56.114.239
 
+##redfish storage volume create
+
+# idrac_config:
+#   idrac_ip:
+#     - 10.56.114.238
+#   storagevolume:
+#     state: present
+#     storagevolume_config:
+#       - volume_type: Mirrored
+#         name: VD0
+#         controller_id: RAID.Slot.2-1
+#         drives:
+#           - 'Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.2-1'
+#           - 'Disk.Bay.1:Enclosure.Internal.0-1:RAID.Slot.2-1'
+#         block_size_bytes: 512
+#         capacity_bytes: 299439751168
+#         optimum_io_size_bytes: 65536
+#         encryption_types: NativeDriveEncryption
+#         encrypted: true
+
+# idrac_config:
+#   idrac_ip:
+#     - 10.56.114.238
+  # boot:
+  #   boot_settings:
+  #     - boot_order:
+  #         - Boot0001
+  #         - Boot0002
+  #         - Boot0004
+  #         - Boot0003
+  #   state: bootconfig     
+
+##boot configs
+
+idrac_config:
+  idrac_ip:
+    - 10.56.114.238
+  bios:
+    state: biosconfig
+    boot_settings:
+      - boot_sources:
+          - Name : "NIC.Embedded.1"
+            Enabled : true
+            Index : 0
+              
+
+# idrac_config:
+#   idrac_ip:
+#     - 100.77.14.138
+
+
+##idrac attributes
+
+# idrac_config:
+#   idrac_ip:
+#     - 10.56.114.238
+#   idrac:
+#     attributes:
+#       - setup_idrac_timezone: "UTC"
+#         enable_ntp: Enabled
+#         ntp_server_1: "190.168.0.1"
+#         ntp_server_2: "190.168.0.2"
+#         ntp_server_3: "190.168.0.3"

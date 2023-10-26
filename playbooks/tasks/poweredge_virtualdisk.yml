@@ -18,3 +18,11 @@
   when:
     - idrac_config.storagevolume.storagevolume_config is defined
     - idrac_config.storagevolume.state == "delete"
+
+- name: Virtual Disk Create
+  ansible.builtin.include_role:
+    name: proautomate_poweredge
+    tasks_from: poweredge_redfish_storagevolume_create
+  when:
+    - idrac_config.storagevolume.storagevolume_config is defined
+    - idrac_config.storagevolume.state == "present"    

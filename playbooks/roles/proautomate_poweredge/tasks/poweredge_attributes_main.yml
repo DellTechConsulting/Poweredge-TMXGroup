@@ -7,15 +7,15 @@
   set_fact:
     temp_ip: "{{ array_ip }}"
 
-- name: Import boot configurations
+- name: Import attributes configurations
   ansible.builtin.set_fact:
-    boot_configs: "{{ idrac_config.bios.boot_settings }}"
+    attributes: "{{ idrac_config.idrac.attributes }}"
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
     idrac_base:
       idrac_ip: "{{ item.ip }}"
-      #validate_certs: "{{ verifycert }}"
+      validate_certs: "{{ verifycert }}"
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
   when: temp_ip == item.ip 
@@ -25,18 +25,18 @@
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  loop: "{{ boot_configs}}"
+  loop: "{{ attributes }}"
   #no_log: true
 
-- name: Configure Boot Settings for idrac
-  dellemc.openmanage.idrac_bios: "{{ item }}"
+- name: Configure attributes Settings for idrac
+  dellemc.openmanage.idrac_timezone_ntp: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
     pause: 10
-  register: boot
+  register: attributes
 
-- name: display the boot configuration result
+- name: display the attributes configuration result
   ansible.builtin.debug:
-    msg: "{{ boot }}"
+    msg: "{{ attributes }}"
 
     

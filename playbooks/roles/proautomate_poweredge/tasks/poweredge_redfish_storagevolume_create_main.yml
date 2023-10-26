@@ -7,36 +7,36 @@
   set_fact:
     temp_ip: "{{ array_ip }}"
 
-- name: Import boot configurations
+- name: Import virtual disk create configurations
   ansible.builtin.set_fact:
-    boot_configs: "{{ idrac_config.bios.boot_settings }}"
+    storage_configs: "{{ idrac_config.storagevolume.storagevolume_config }}"
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
     idrac_base:
-      idrac_ip: "{{ item.ip }}"
+      baseuri: "{{ item.ip }}"
       #validate_certs: "{{ verifycert }}"
-      idrac_user: "{{ item.user }}"
-      idrac_password: "{{ item.password }}"
+      username: "{{ item.user }}"
+      password: "{{ item.password }}"
+      state: "present"
   when: temp_ip == item.ip 
-  loop: "{{idrac}}"   
+  loop: "{{idrac}}"     
   no_log: true
 
 - name: Combine configurations
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
-  loop: "{{ boot_configs}}"
-  #no_log: true
+  loop: "{{ storage_configs }}"
 
-- name: Configure Boot Settings for idrac
-  dellemc.openmanage.idrac_bios: "{{ item }}"
+- name: Create virtual disk
+  dellemc.openmanage.redfish_storage_volume: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
     pause: 10
-  register: boot
+  register: create_vdisk
 
-- name: display the boot configuration result
+- name: Display result
   ansible.builtin.debug:
-    msg: "{{ boot }}"
+    msg: "{{ create_vdisk }}"
 
-    
+   

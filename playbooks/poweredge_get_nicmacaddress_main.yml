@@ -1,0 +1,29 @@
+---
+- name: Printing ip selected from 1st request
+  debug:
+    var: array_ip
+    
+- name: setting fact for comparision
+  set_fact:
+    temp_ip: "{{ array_ip }}"
+
+- name: get all nic mac addresses
+  ansible.builtin.uri:
+     url: "https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/NetworkAdapters"
+     user: "{{ item.user }}"
+     password: "{{ item.password }}"
+     method: "GET"
+     status_code: 200
+     validate_certs: false
+     force_basic_auth: true
+     headers:
+        Accept: "application/json"
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}" 
+  # no_log: true      
+  register: nic_address
+
+
+
+- debug: 
+    msg: "{{nic_address}}"
