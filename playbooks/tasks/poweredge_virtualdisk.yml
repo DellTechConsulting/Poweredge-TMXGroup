@@ -9,7 +9,7 @@
     tasks_from: poweredge_storagevolume_create
   when:
     - idrac_config.storagevolume.storagevolume_config is defined
-    - idrac_config.storagevolume.state == "create"
+    - idrac_config.storagevolume.state == "present"
 
 - name: Virtual Disk Delete
   ansible.builtin.include_role:
