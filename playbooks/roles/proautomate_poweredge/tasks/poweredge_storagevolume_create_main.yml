@@ -29,7 +29,7 @@
   loop: "{{ storage_configs }}"
 
 - name: Create virtual disk
-  dellemc.openmanage.dellemc_idrac_storage_volume: "{{ item }}"
+  dellemc.openmanage.redfish_storage_volume: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
     pause: 10
