@@ -26,7 +26,7 @@
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
   loop: "{{ boot_configs}}"
-  #no_log: true
+  no_log: true
 
 - name: Configure Boot Settings for idrac
   dellemc.openmanage.idrac_bios: "{{ item }}"

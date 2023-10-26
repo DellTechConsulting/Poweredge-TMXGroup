@@ -22,6 +22,8 @@ idrac:
 verifycert: false
 real_ip: []
 
+##bios config
+
 # idrac_config:
 #     idrac_ip:
 #       - 10.56.114.239
@@ -30,18 +32,6 @@ real_ip: []
 #       bios_settings:
 #         - attributes:
 #             EmbNic1Nic2: Disabled
-
-
-# idrac_config:
-#   bios:
-#     bios_settings:
-#       - boot_sources:
-#           - Name: NIC.Integrated.1-2-3
-#             Enabled: true
-#             Index: 0
-#     state: biosconfig
-#   idrac_ip:
-#     - 10.56.114.239
 
 ##redfish storage volume create
 
@@ -63,17 +53,7 @@ real_ip: []
 #         encryption_types: NativeDriveEncryption
 #         encrypted: true
 
-# idrac_config:
-#   idrac_ip:
-#     - 10.56.114.238
-  # boot:
-  #   boot_settings:
-  #     - boot_order:
-  #         - Boot0001
-  #         - Boot0002
-  #         - Boot0004
-  #         - Boot0003
-  #   state: bootconfig     
+  
 
 ##boot configs
 

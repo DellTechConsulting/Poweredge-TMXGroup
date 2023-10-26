@@ -26,10 +26,10 @@
   ansible.builtin.set_fact:
     fs_items: "{{ (fs_items | default([])) + [ item | combine(idrac_base) ] }}"
   loop: "{{ attributes }}"
-  #no_log: true
+  no_log: true
 
 - name: Configure attributes Settings for idrac
-  dellemc.openmanage.idrac_timezone_ntp: "{{ item }}"
+  dellemc.openmanage.idrac_attributes: "{{ item }}"
   loop: "{{ fs_items }}"
   loop_control:
     pause: 10
