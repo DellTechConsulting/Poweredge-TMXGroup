@@ -15,7 +15,7 @@
   ansible.builtin.set_fact:
     idrac_base:
       baseuri: "{{ item.ip }}"
-      #validate_certs: "{{ verifycert }}"
+      validate_certs: "{{ verifycert }}"
       username: "{{ item.user }}"
       password: "{{ item.password }}"
       state: "present"
