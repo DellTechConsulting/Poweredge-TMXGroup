@@ -21,6 +21,8 @@ idrac:
 
 verifycert: false
 real_ip: []
+macs: []
+EI_id: []
 
 ##bios config
 
@@ -57,21 +59,21 @@ real_ip: []
 
 ##boot configs
 
-idrac_config:
-  idrac_ip:
-    - 10.56.114.238
-  bios:
-    state: biosconfig
-    boot_settings:
-      - boot_sources:
-          - Name : "NIC.Embedded.1"
-            Enabled : true
-            Index : 0
-              
-
 # idrac_config:
 #   idrac_ip:
-#     - 100.77.14.138
+#     - 10.56.114.238
+#   bios:
+#     state: biosconfig
+#     boot_settings:
+#       - boot_sources:
+#           - Name : "NIC.Embedded.1"
+#             Enabled : true
+#             Index : 0
+              
+
+idrac_config:
+  idrac_ip:
+    - 10.56.114.237
 
 
 ##idrac attributes

@@ -23,12 +23,18 @@
   no_log: true      
   register: mac_address
 
+- name: setfacts
+  ansible.builtin.set_fact: 
+    mac_list: "{{mac_address.results|map(attribute='json.MACAddress')|list}}"
+    nic_list: "{{mac_address.results|map(attribute='item')|list}}" 
+
+- name: setfacts
+  ansible.builtin.set_fact:
+    host_network_info: "{{ dict(nic_list | zip(mac_list)) | dict2items(key_name='interface', value_name='macaddress') }}"
+
+
 - debug:
-    msg: "{{mac_address}}"
-   
-
-
- 
+    msg: "{{host_network_info}}"
 
   
 
