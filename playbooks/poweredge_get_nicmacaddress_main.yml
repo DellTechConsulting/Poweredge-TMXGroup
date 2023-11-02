@@ -9,7 +9,8 @@
 
 - name: get all nic mac addresses
   ansible.builtin.uri:
-     url: "https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/NetworkAdapters"
+     url: "https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/EthernetInterfaces"
+     #https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/EthernetInterfacesorNetworkAdapters
      user: "{{ item.user }}"
      password: "{{ item.password }}"
      method: "GET"
@@ -20,10 +21,33 @@
         Accept: "application/json"
   when: temp_ip == item.ip 
   loop: "{{idrac}}" 
-  # no_log: true      
+  no_log: true      
   register: nic_address
 
+- debug:
+    msg: "{{nic_address}}"   
 
+- name: Ethernet Interfaces   
+  ansible.builtin.set_fact:
+    nics: "{{nic_address.results[0].json.Members}}"
 
-- debug: 
-    msg: "{{nic_address}}"
+- debug:
+    msg: "{{nics}}"  
+
+- name: Ethernet Interfaces list
+  ansible.builtin.set_fact:
+    macs: "{{macs + [item['@odata.id']]}}"
+  with_items: "{{nics}}"  
+
+- debug:
+    msg: "{{macs}}"    
+
+- name: setfacts
+  ansible.builtin.set_fact:
+    EI_id: "{{ EI_id + [item.split('/')[-1]]  }}"   
+  with_items: "{{macs}}"
+
+- debug:
+    msg: "{{EI_id}}"    
+
+- import_tasks: poweredge_get_macaddress.yml   

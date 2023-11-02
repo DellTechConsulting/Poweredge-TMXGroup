@@ -1,0 +1,34 @@
+---
+- name: setfacts for idrac
+  ansible.builtin.set_fact:
+    ip: "{{item.ip}}"
+    user: "{{ item.user }}"
+    password: "{{ item.password }}"
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}"   
+
+- name: get all mac addresses
+  ansible.builtin.uri:
+     url: "https://{{ip}}/redfish/v1/Systems/System.Embedded.1/EthernetInterfaces/{{item}}"
+     user: "{{ user }}"
+     password: "{{ password }}"
+     method: "GET"
+     status_code: 200
+     validate_certs: false
+     force_basic_auth: true
+     headers:
+      Accept: "application/json"
+  with_items: 
+    - "{{EI_id}}"  
+  no_log: true      
+  register: mac_address
+
+- debug:
+    msg: "{{mac_address}}"
+   
+
+
+ 
+
+  
+
