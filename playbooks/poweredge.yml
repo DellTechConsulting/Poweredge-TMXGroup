@@ -28,7 +28,7 @@
   - include: tasks/poweredge_eventing.yml
   - include: tasks/poweredge_reset.yml
   - include: tasks/poweredge_bootconfig.yml
-  - include: tasks/poweredge_attributes.yml
+
 
 
  

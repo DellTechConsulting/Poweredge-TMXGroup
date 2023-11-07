@@ -1,0 +1,31 @@
+---
+- name: Printing ip selected from 1st request
+  debug:
+    var: array_ip
+    
+- name: setting fact for comparision
+  set_fact:
+    temp_ip: "{{ array_ip }}"
+
+
+- name: Export SCP with IDRAC components in JSON format to a local path
+  dellemc.openmanage.idrac_server_config_profile:
+    idrac_ip: "{{ item.ip }}"
+    idrac_user: "{{ item.user }}"
+    idrac_password: "{{ item.password }}"
+    share_name: "/tmp"  #local path for saving scp_file
+    scp_file: example_file
+    scp_components: 
+      - IDRAC
+    export_format: JSON
+    export_use: Default
+    job_wait: true
+  when: temp_ip == item.ip 
+  loop: "{{idrac}}"    
+  register: get_scp  
+
+  
+  
+- name: Display System Inventory details
+  ansible.builtin.debug:
+    msg: "{{ get_scp }}"

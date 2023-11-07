@@ -9,13 +9,13 @@
 
 - name: Import boot configurations
   ansible.builtin.set_fact:
-    boot_configs: "{{ idrac_config.bios.boot_settings }}"
+    boot_configs: "{{ idrac_config.boot.boot_settings }}"
 
 - name: Set base module configuration
   ansible.builtin.set_fact:
     idrac_base:
       idrac_ip: "{{ item.ip }}"
-      #validate_certs: "{{ verifycert }}"
+      validate_certs: "{{ verifycert }}"
       idrac_user: "{{ item.user }}"
       idrac_password: "{{ item.password }}"
   when: temp_ip == item.ip 

@@ -5,24 +5,26 @@
 # password: idracP@ssw0rd
 
 idrac:
- - ip: 10.56.114.237
-   user: root
-   password: idracP@ssw0rd
  - ip: 10.56.114.238
    user: root
    password: idracP@ssw0rd
+ - ip: 10.56.114.237
+   user: root
+   password: idracP@ssw0rd    
  - ip: 10.56.114.239
    user: root
    password: idracP@ssw0rd  
  - ip: 100.77.14.138
    user: ansibtest
    password: calvin 
+ 
    
 
 verifycert: false
 real_ip: []
 macs: []
 EI_id: []
+
 
 ##bios config
 
@@ -61,14 +63,14 @@ EI_id: []
 
 # idrac_config:
 #   idrac_ip:
-#     - 10.56.114.238
+#     - 10.56.114.237
 #   bios:
 #     state: biosconfig
-#     boot_settings:
+#     bios_settings:
 #       - boot_sources:
-#           - Name : "NIC.Embedded.1"
+#           - Name : "NIC.Embedded.2-1-1"
 #             Enabled : true
-#             Index : 0
+#             Index : 1
               
 
 idrac_config:
@@ -83,8 +85,11 @@ idrac_config:
 #     - 10.56.114.238
 #   idrac:
 #     attributes:
-#       - setup_idrac_timezone: "UTC"
-#         enable_ntp: Enabled
-#         ntp_server_1: "190.168.0.1"
-#         ntp_server_2: "190.168.0.2"
-#         ntp_server_3: "190.168.0.3"
+#       - idrac_attributes:
+#           - setup_idrac_timezone: "UTC"
+#             enable_ntp: Enabled
+#             ntp_server_1: "190.168.0.1"
+#             ntp_server_2: "190.168.0.2"
+#             ntp_server_3: "190.168.0.3"
+
+

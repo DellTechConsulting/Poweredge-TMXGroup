@@ -10,7 +10,7 @@
 - name: get all nic mac addresses
   ansible.builtin.uri:
      url: "https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/EthernetInterfaces"
-     #https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/EthernetInterfacesorNetworkAdapters
+     #https://{{item.ip}}/redfish/v1/Systems/System.Embedded.1/NetworkInterfacesorNetworkAdapters
      user: "{{ item.user }}"
      password: "{{ item.password }}"
      method: "GET"
@@ -24,12 +24,17 @@
   no_log: true      
   register: nic_address
 
+
+- name: setfacts
+  ansible.builtin.set_fact: 
+    index: "{{ lookup('ansible.utils.index_of', idrac, 'regex', '{{temp_ip}}') }}"
+
 - debug:
-    msg: "{{nic_address}}"   
+    msg: "{{index}}"    
 
 - name: Ethernet Interfaces   
   ansible.builtin.set_fact:
-    nics: "{{nic_address.results[0].json.Members}}"
+    nics: "{{nic_address.results[index|int].json.Members}}"
 
 - debug:
     msg: "{{nics}}"  

@@ -10,9 +10,4 @@
   when:
     - idrac_config.bios.bios_settings is defined
 
-- name: Bios-Configuration
-  ansible.builtin.include_role:
-    name: proautomate_poweredge
-    tasks_from: poweredge_bootconfig
-  when:
-    - idrac_config.bios.boot_settings is defined    
+ 
